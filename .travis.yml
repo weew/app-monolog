@@ -9,7 +9,7 @@ before_script:
 
 script:
   - mkdir -p build/logs
-  - phpspec run -f pretty
+  - vendor/bin/phpspec run -f pretty
 
 after_script:
   - php vendor/bin/coveralls -v
