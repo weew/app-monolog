@@ -8,19 +8,22 @@ use Weew\Container\IContainer;
 
 class MonologProvider {
     /**
+     * MonologProvider constructor.
+     *
      * @param IContainer $container
      */
-    public function initialize(IContainer $container) {
+    public function __construct(IContainer $container) {
         $container->set(IMonologConfig::class, MonologConfig::class);
     }
 
     /**
      * @param IContainer $container
-     * @param MonologChannelManager $channelManager
-     *
-     * @throws Exceptions\UndefinedChannelException
+     * @param IMonologChannelManager $channelManager
      */
-    public function boot(IContainer $container, MonologChannelManager $channelManager) {
+    public function initialize(
+        IContainer $container,
+        IMonologChannelManager $channelManager
+    ) {
         $container->set(
             [LoggerInterface::class, Logger::class], $channelManager->getLogger()
         );

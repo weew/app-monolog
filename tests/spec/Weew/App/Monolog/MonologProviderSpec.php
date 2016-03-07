@@ -20,18 +20,14 @@ use Weew\Container\IContainer;
  */
 class MonologProviderSpec extends ObjectBehavior {
     /**
-     * @return Container
+     * @var IContainer
      */
-    private function createContainer() {
-        return new Container();
-    }
+    private $container;
 
     /**
-     * @param IContainer $container
-     *
      * @return MonologChannelManager
      */
-    private function createChannelManager(IContainer $container) {
+    private function createChannelManager() {
         $config = new Config();
         $config->set(MonologConfig::DEFAULT_CHANNEL_NAME, 'channel');
         $config->set(s(MonologConfig::LOG_CHANNEL_FILE_PATH, 'channel'), '/tmp');
@@ -41,39 +37,38 @@ class MonologProviderSpec extends ObjectBehavior {
         return new MonologChannelManager($monologConfig);
     }
 
+    function let() {
+        $this->container = new Container();
+        $this->beConstructedWith($this->container);
+    }
+
     function it_is_initializable() {
         $this->shouldHaveType(MonologProvider::class);
     }
 
     function it_shares_default_implementation_of_imonolog_config_in_the_container() {
-        $container = new Container();
-        expect($container->has(IMonologConfig::class))->shouldBe(false);
-        $this->initialize($container);
-        expect($container->has(IMonologConfig::class))->shouldBe(true);
+        $this->shouldHaveType(MonologProvider::class);
+        expect($this->container->has(IMonologConfig::class))->shouldBe(true);
     }
 
     function it_shares_an_instance_of_monolog_channel_manager_in_the_container() {
-        $container = $this->createContainer();
-        $channelManager = $this->createChannelManager($container);
+        $channelManager = $this->createChannelManager($this->container);
 
-        expect($container->has(IMonologConfig::class))->shouldBe(false);
-        $this->initialize($container);
-        $this->boot($container, $channelManager);
-        expect($container->has(IMonologChannelManager::class))->shouldBe(true);
-        expect($container->has(MonologChannelManager::class))->shouldBe(true);
+        $this->shouldHaveType(MonologProvider::class);
+        $this->initialize($this->container, $channelManager);
+        expect($this->container->has(IMonologChannelManager::class))->shouldBe(true);
+        expect($this->container->has(MonologChannelManager::class))->shouldBe(true);
     }
 
     function it_shares_an_instance_of_the_default_logger_in_the_container() {
-        $container = $this->createContainer();
-        $channelManager = $this->createChannelManager($container);
+        $channelManager = $this->createChannelManager();
 
-        expect($container->has(LoggerInterface::class))->shouldBe(false);
-        $this->initialize($container);
-        $this->boot($container, $channelManager);
-        expect($container->has(LoggerInterface::class))->shouldBe(true);
-        expect($container->has(Logger::class))->shouldBe(true);
+        expect($this->container->has(LoggerInterface::class))->shouldBe(false);
+        $this->initialize($this->container, $channelManager);
+        expect($this->container->has(LoggerInterface::class))->shouldBe(true);
+        expect($this->container->has(Logger::class))->shouldBe(true);
 
-        $logger = $container->get(LoggerInterface::class);
+        $logger = $this->container->get(LoggerInterface::class);
         $defaultLogger = $channelManager->getLogger();
         expect($logger)->shouldBe($defaultLogger);
     }
