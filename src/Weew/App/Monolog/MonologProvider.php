@@ -18,11 +18,11 @@ class MonologProvider {
 
     /**
      * @param IContainer $container
-     * @param IMonologChannelManager $channelManager
+     * @param MonologChannelManager $channelManager
      */
     public function initialize(
         IContainer $container,
-        IMonologChannelManager $channelManager
+        MonologChannelManager $channelManager
     ) {
         $container->set(
             [LoggerInterface::class, Logger::class], $channelManager->getLogger()
