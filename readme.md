@@ -10,7 +10,7 @@
 
 - [Installation](#installation)
 - [Usage](#usage)
-- [Sample config](#sample-config)
+- [Example config](#example-config)
 
 ## Installation
 
@@ -37,7 +37,7 @@ $channelManager = $app->getContainer()->get(IMonologChannelManager::class);
 $channelManager->getLogger('channel_name');
 ```
 
-## Sample config
+## Example config
 
 This is how your configuration *might* look like:
 
