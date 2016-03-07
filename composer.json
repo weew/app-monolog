@@ -6,6 +6,10 @@
         {
             "name": "Maxim Kott",
             "email": "maximkott@gmail.com"
+        },
+        {
+            "name": "Lukas Angerer",
+            "email": "lukas.angerer@gmail.com"
         }
     ],
     "autoload": {
