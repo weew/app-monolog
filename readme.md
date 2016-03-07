@@ -52,5 +52,4 @@ monolog:
     error:
       log_file_path: /var/logs/error.log
       log_level: debug
-      logger_name: error
 ```
