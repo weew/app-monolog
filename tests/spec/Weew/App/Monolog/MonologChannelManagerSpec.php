@@ -77,10 +77,9 @@ class MonologChannelManagerSpec extends ObjectBehavior {
             $this->getConfig()->getDefaultChannel()->getWrappedObject(),
             'log_file_path'
         );
-        $channelDirectoryPath = dirname($channelFilePath);
 
-        expect(directory_exists($channelDirectoryPath))->shouldBe(false);
+        expect(file_exists($channelFilePath))->shouldBe(false);
         $this->getLogger($this->getConfig()->getDefaultChannelName());
-        expect(directory_exists($channelDirectoryPath))->shouldBe(true);
+        expect(file_exists($channelFilePath))->shouldBe(true);
     }
 }

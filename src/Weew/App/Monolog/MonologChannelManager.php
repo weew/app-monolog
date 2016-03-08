@@ -72,13 +72,9 @@ class MonologChannelManager implements IMonologChannelManager {
      * @return LoggerInterface
      */
     protected function createLogger($channelName) {
-        $channelDirectory = file_get_directory(
+        $this->ensureLogFileExists(
             $this->config->getLogFilePathForChannel($channelName)
         );
-
-        if ( ! directory_exists($channelDirectory)) {
-            directory_create($channelDirectory);
-        }
 
         $stream = new StreamHandler(
             $this->config->getLogFilePathForChannel($channelName),
@@ -87,5 +83,14 @@ class MonologChannelManager implements IMonologChannelManager {
         $logger = new Logger($channelName, [$stream]);
 
         return $logger;
+    }
+
+    /**
+     * @param $logFilePath
+     */
+    protected function ensureLogFileExists($logFilePath) {
+        if ( ! file_exists($logFilePath)) {
+            file_create($logFilePath);
+        }
     }
 }
