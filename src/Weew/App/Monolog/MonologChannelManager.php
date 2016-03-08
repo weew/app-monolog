@@ -72,6 +72,14 @@ class MonologChannelManager implements IMonologChannelManager {
      * @return LoggerInterface
      */
     protected function createLogger($channelName) {
+        $channelDirectory = file_get_directory(
+            $this->config->getLogFilePathForChannel($channelName)
+        );
+
+        if ( ! directory_exists($channelDirectory)) {
+            directory_create($channelDirectory);
+        }
+
         $stream = new StreamHandler(
             $this->config->getLogFilePathForChannel($channelName),
             $this->config->getLogLevelForChannel($channelName)
