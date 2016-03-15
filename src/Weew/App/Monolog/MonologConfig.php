@@ -2,7 +2,7 @@
 
 namespace Weew\App\Monolog;
 
-use Exception;
+use Weew\Config\Exceptions\InvalidConfigValueException;
 use Weew\Config\IConfig;
 
 class MonologConfig implements IMonologConfig {
@@ -21,7 +21,7 @@ class MonologConfig implements IMonologConfig {
      *
      * @param IConfig $config
      *
-     * @throws Exception
+     * @throws InvalidConfigValueException
      */
     public function __construct(IConfig $config) {
         $this->config = $config;
@@ -33,7 +33,7 @@ class MonologConfig implements IMonologConfig {
         $channels = $this->getChannels();
 
         if ( ! is_array($channels)) {
-            throw new Exception(s(
+            throw new InvalidConfigValueException(s(
                 'Config under the key "%s" must be an array.',
                 self::LOG_CHANNELS
             ));
@@ -52,7 +52,7 @@ class MonologConfig implements IMonologConfig {
         }
 
         if ($this->getDefaultChannel() === null) {
-            throw new Exception(s(
+            throw new InvalidConfigValueException(s(
                 'Default channel with name "%s" does not exist.',
                 $this->getDefaultChannelName()
             ));

@@ -2,13 +2,13 @@
 
 namespace tests\spec\Weew\App\Monolog;
 
-use Exception;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Weew\App\Monolog\IMonologConfig;
 use Weew\App\Monolog\MonologConfig;
 use Weew\Config\Config;
 use Weew\Config\Exceptions\MissingConfigException;
+use Weew\Config\Exceptions\InvalidConfigValueException;
 
 /**
  * @mixin MonologConfig
@@ -55,7 +55,7 @@ class MonologConfigSpec extends ObjectBehavior {
         $this->beConstructedWith($config);
 
         $this->shouldThrow(
-            new Exception('Default channel with name "channel_name" does not exist.')
+            new InvalidConfigValueException('Default channel with name "channel_name" does not exist.')
         )->duringInstantiation();
     }
 
@@ -66,7 +66,7 @@ class MonologConfigSpec extends ObjectBehavior {
         $this->beConstructedWith($config);
 
         $this->shouldThrow(
-            new Exception('Config under the key "monolog.channels" must be an array.')
+            new InvalidConfigValueException('Config under the key "monolog.channels" must be an array.')
         )->duringInstantiation();
     }
 
