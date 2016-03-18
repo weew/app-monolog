@@ -2,18 +2,18 @@
 
 namespace Weew\App\Monolog;
 
-use Psr\Log\LoggerInterface;
+use Monolog\Logger;
 
 interface IMonologChannelManager {
     /**
      * @param $channelName
      *
-     * @return LoggerInterface
+     * @return Logger
      */
     function getLogger($channelName);
 
     /**
-     * @return LoggerInterface[]
+     * @return Logger[]
      */
     function getLoggers();
 

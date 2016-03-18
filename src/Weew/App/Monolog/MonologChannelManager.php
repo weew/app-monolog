@@ -4,7 +4,6 @@ namespace Weew\App\Monolog;
 
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
-use Psr\Log\LoggerInterface;
 use Weew\App\Monolog\Exceptions\UndefinedChannelException;
 
 class MonologChannelManager implements IMonologChannelManager {
@@ -14,7 +13,7 @@ class MonologChannelManager implements IMonologChannelManager {
     protected $config;
 
     /**
-     * @var LoggerInterface[]
+     * @var Logger[]
      */
     protected $loggers = [];
 
@@ -30,7 +29,7 @@ class MonologChannelManager implements IMonologChannelManager {
     /**
      * @param null $channelName
      *
-     * @return LoggerInterface
+     * @return Logger
      * @throws UndefinedChannelException
      */
     public function getLogger($channelName = null) {
@@ -53,7 +52,7 @@ class MonologChannelManager implements IMonologChannelManager {
     }
 
     /**
-     * @return LoggerInterface[]
+     * @return Logger[]
      */
     public function getLoggers() {
         return $this->loggers;
@@ -69,7 +68,7 @@ class MonologChannelManager implements IMonologChannelManager {
     /**
      * @param $channelName
      *
-     * @return LoggerInterface
+     * @return Logger
      */
     protected function createLogger($channelName) {
         $this->ensureLogFileExists(
