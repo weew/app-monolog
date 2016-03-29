@@ -33,14 +33,14 @@ class MonologConfigSpec extends ObjectBehavior {
         $this->beAnInstanceOf(IMonologConfig::class);
     }
 
-    function it_throws_an_error_if_default_channel_name_is_not_set() {
+    function it_throws_an_error_if_default_channel_config_is_not_set() {
         $config = new Config();
         $this->beConstructedWith($config);
 
         $this->shouldThrow(MissingConfigException::class)->duringInstantiation();
     }
 
-    function it_throws_an_error_if_logging_channels_are_not_set() {
+    function it_throws_an_error_if_logging_channels_configs_are_not_set() {
         $config = new Config();
         $config->set(MonologConfig::DEFAULT_CHANNEL_NAME, 'channel_name');
         $this->beConstructedWith($config);
@@ -48,7 +48,7 @@ class MonologConfigSpec extends ObjectBehavior {
         $this->shouldThrow(MissingConfigException::class)->duringInstantiation();
     }
 
-    function it_throws_an_error_if_default_channel_is_absent() {
+    function it_throws_an_error_if_default_channel_config_is_absent() {
         $config = new Config();
         $config->set(MonologConfig::DEFAULT_CHANNEL_NAME, 'channel_name');
         $config->set(MonologConfig::LOG_CHANNELS, []);
@@ -59,7 +59,7 @@ class MonologConfigSpec extends ObjectBehavior {
         )->duringInstantiation();
     }
 
-    function it_throws_an_error_if_logging_channels_is_not_an_array() {
+    function it_throws_an_error_if_logging_channel_config_is_not_an_array() {
         $config = new Config();
         $config->set(MonologConfig::DEFAULT_CHANNEL_NAME, 'channel_name');
         $config->set(MonologConfig::LOG_CHANNELS, 'channels');
@@ -70,7 +70,7 @@ class MonologConfigSpec extends ObjectBehavior {
         )->duringInstantiation();
     }
 
-    function it_throws_an_error_if_a_logging_channel_has_no_logging_path() {
+    function it_throws_an_error_if_a_logging_channel_config_has_no_logging_path() {
         $config = new Config();
         $config->set(MonologConfig::DEFAULT_CHANNEL_NAME, 'channel_name');
         $config->set(s(MonologConfig::LOG_CHANNEL_LOG_LEVEL, 'channel_name'), 'log_level');
@@ -79,7 +79,7 @@ class MonologConfigSpec extends ObjectBehavior {
         $this->shouldThrow(MissingConfigException::class)->duringInstantiation();
     }
 
-    function it_throws_an_error_if_a_logging_channel_has_no_log_level() {
+    function it_throws_an_error_if_a_logging_channel_config_has_no_log_level() {
         $config = new Config();
         $config->set(MonologConfig::DEFAULT_CHANNEL_NAME, 'channel_name');
         $config->set(s(MonologConfig::LOG_CHANNEL_FILE_PATH, 'channel_name'), 'log_path');
@@ -88,19 +88,19 @@ class MonologConfigSpec extends ObjectBehavior {
         $this->shouldThrow(MissingConfigException::class)->duringInstantiation();
     }
 
-    function it_returns_default_channel_name() {
-        $this->getDefaultChannelName()->shouldBe('channel1');
+    function it_returns_default_channel_config_name() {
+        $this->getDefaultChannelConfigName()->shouldBe('channel1');
     }
     
-    function it_returns_default_channel() {
-        $this->getDefaultChannel()->shouldBe([
+    function it_returns_default_channel_config() {
+        $this->getDefaultChannelConfig()->shouldBe([
             'log_file_path' => '/tmp',
             'log_level' => 'debug',
         ]);
     }
 
-    function it_returns_channels() {
-        $this->getChannels()->shouldBe([
+    function it_returns_channel_configs() {
+        $this->getChannelConfigs()->shouldBe([
             'channel1' => [
                 'log_file_path' => '/tmp',
                 'log_level' => 'debug',
@@ -112,21 +112,21 @@ class MonologConfigSpec extends ObjectBehavior {
         ]);
     }
     
-    function it_returns_log_file_path_for_channel() {
-        $this->getLogFilePathForChannel('channel1')->shouldBe('/tmp');
-        $this->getLogLevelForChannel('foo')->shouldBe(null);
+    function it_returns_log_file_path_for_channel_config() {
+        $this->getLogFilePathForChannelConfig('channel1')->shouldBe('/tmp');
+        $this->getLogLevelForChannelConfig('foo')->shouldBe(null);
     }
 
-    function it_returns_log_level_for_channel() {
-        $this->getLogLevelForChannel('channel1')->shouldBe('debug');
-        $this->getLogLevelForChannel('foo')->shouldBe(null);
+    function it_returns_log_level_for_channel_config() {
+        $this->getLogLevelForChannelConfig('channel1')->shouldBe('debug');
+        $this->getLogLevelForChannelConfig('foo')->shouldBe(null);
     }
 
-    function it_returns_a_channel() {
-        $this->getChannel('channel1')->shouldBe([
+    function it_returns_a_channel_config() {
+        $this->getChannelConfig('channel1')->shouldBe([
             'log_file_path' => '/tmp',
             'log_level' => 'debug',
         ]);
-        $this->getChannel('foo')->shouldBe(null);
+        $this->getChannelConfig('foo')->shouldBe(null);
     }
 }

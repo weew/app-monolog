@@ -4,6 +4,7 @@ namespace Weew\App\Monolog;
 
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
+use ReflectionClass;
 use Weew\App\Monolog\Exceptions\UndefinedChannelException;
 
 class MonologChannelManager implements IMonologChannelManager {
@@ -27,28 +28,52 @@ class MonologChannelManager implements IMonologChannelManager {
     }
 
     /**
+     * @param null $configName
      * @param null $channelName
      *
      * @return Logger
      * @throws UndefinedChannelException
      */
-    public function getLogger($channelName = null) {
-        if ($channelName === null) {
-            $channelName = $this->config->getDefaultChannelName();
+    public function getLogger($configName = null, $channelName = null) {
+        if ($configName === null) {
+            $configName = $this->config->getDefaultChannelConfigName();
         }
 
-        if ( ! array_has($this->loggers, $channelName)) {
-            if ($this->config->getChannel($channelName) === null) {
+        if ($channelName === null) {
+            $channelName = $configName;
+        }
+
+        $loggerIdentifier = s('%s-%s', $configName, $channelName);
+
+        if ( ! array_has($this->loggers, $loggerIdentifier)) {
+            if ($this->config->getChannelConfig($configName) === null) {
                 throw new UndefinedChannelException(s(
                     'Configuration for logging channel "%s" does not exist, this channel can not be created.',
-                    $channelName
+                    $configName
                 ));
             }
 
-            $this->loggers[$channelName] = $this->createLogger($channelName);
+            $this->loggers[$loggerIdentifier] = $this->createLogger($configName, $channelName);
         }
 
-        return array_get($this->loggers, $channelName);
+        return array_get($this->loggers, $loggerIdentifier);
+    }
+
+    /**
+     * @param object $object
+     * @param null $configName
+     *
+     * @return Logger
+     * @throws UndefinedChannelException
+     */
+    public function getLoggerForClass($object, $configName = null) {
+        if (is_object($object)) {
+            $reflector = new ReflectionClass($object);
+
+            return $this->getLogger($configName, $reflector->getShortName());
+        }
+
+        return $this->getLogger();
     }
 
     /**
@@ -66,18 +91,19 @@ class MonologChannelManager implements IMonologChannelManager {
     }
 
     /**
+     * @param $configName
      * @param $channelName
      *
      * @return Logger
      */
-    protected function createLogger($channelName) {
+    protected function createLogger($configName, $channelName) {
         $this->ensureLogFileExists(
-            $this->config->getLogFilePathForChannel($channelName)
+            $this->config->getLogFilePathForChannelConfig($configName)
         );
 
         $stream = new StreamHandler(
-            $this->config->getLogFilePathForChannel($channelName),
-            $this->config->getLogLevelForChannel($channelName)
+            $this->config->getLogFilePathForChannelConfig($configName),
+            $this->config->getLogLevelForChannelConfig($configName)
         );
         $logger = new Logger($channelName, [$stream]);
 

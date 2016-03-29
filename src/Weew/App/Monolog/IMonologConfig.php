@@ -6,36 +6,36 @@ interface IMonologConfig {
     /**
      * @return array
      */
-    function getChannels();
+    function getChannelConfigs();
 
     /**
      * @return string
      */
-    function getDefaultChannelName();
+    function getDefaultChannelConfigName();
 
     /**
      * @return array
      */
-    function getDefaultChannel();
+    function getDefaultChannelConfig();
 
     /**
-     * @param $channelName
+     * @param $configName
      *
      * @return array
      */
-    function getChannel($channelName);
+    function getChannelConfig($configName);
 
     /**
-     * @param string $channelName
+     * @param string $configName
      *
      * @return string
      */
-    function getLogFilePathForChannel($channelName);
+    function getLogFilePathForChannelConfig($configName);
 
     /**
-     * @param string $channelName
+     * @param string $configName
      *
      * @return string
      */
-    function getLogLevelForChannel($channelName);
+    function getLogLevelForChannelConfig($configName);
 }

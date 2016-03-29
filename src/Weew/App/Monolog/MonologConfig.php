@@ -30,7 +30,7 @@ class MonologConfig implements IMonologConfig {
             ->ensure(self::LOG_CHANNELS, 'Missing a list of logging channels.')
             ->ensure(self::DEFAULT_CHANNEL_NAME, 'Missing default channel name.');
 
-        $channels = $this->getChannels();
+        $channels = $this->getChannelConfigs();
 
         if ( ! is_array($channels)) {
             throw new InvalidConfigValueException(s(
@@ -51,10 +51,10 @@ class MonologConfig implements IMonologConfig {
             );
         }
 
-        if ($this->getDefaultChannel() === null) {
+        if ($this->getDefaultChannelConfig() === null) {
             throw new InvalidConfigValueException(s(
                 'Default channel with name "%s" does not exist.',
-                $this->getDefaultChannelName()
+                $this->getDefaultChannelConfigName()
             ));
         }
     }
@@ -62,48 +62,48 @@ class MonologConfig implements IMonologConfig {
     /**
      * @return array
      */
-    public function getChannels() {
+    public function getChannelConfigs() {
         return $this->config->get(self::LOG_CHANNELS);
     }
 
     /**
      * @return string
      */
-    public function getDefaultChannelName() {
+    public function getDefaultChannelConfigName() {
         return $this->config->get(self::DEFAULT_CHANNEL_NAME);
     }
 
     /**
      * @return array
      */
-    public function getDefaultChannel() {
-        return array_get($this->getChannels(), $this->getDefaultChannelName());
+    public function getDefaultChannelConfig() {
+        return array_get($this->getChannelConfigs(), $this->getDefaultChannelConfigName());
     }
 
     /**
-     * @param $channelName
+     * @param $configName
      *
      * @return array
      */
-    public function getChannel($channelName) {
-        return array_get($this->getChannels(), $channelName);
+    public function getChannelConfig($configName) {
+        return array_get($this->getChannelConfigs(), $configName);
     }
 
     /**
-     * @param $channelName
+     * @param $configName
      *
      * @return string
      */
-    public function getLogFilePathForChannel($channelName) {
-        return $this->config->get(s(self::LOG_CHANNEL_FILE_PATH, $channelName));
+    public function getLogFilePathForChannelConfig($configName) {
+        return $this->config->get(s(self::LOG_CHANNEL_FILE_PATH, $configName));
     }
 
     /**
-     * @param $channelName
+     * @param $configName
      *
      * @return string
      */
-    public function getLogLevelForChannel($channelName) {
-        return $this->config->get(s(self::LOG_CHANNEL_LOG_LEVEL, $channelName));
+    public function getLogLevelForChannelConfig($configName) {
+        return $this->config->get(s(self::LOG_CHANNEL_LOG_LEVEL, $configName));
     }
 }

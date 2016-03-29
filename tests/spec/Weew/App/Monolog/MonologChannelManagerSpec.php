@@ -5,6 +5,7 @@ namespace tests\spec\Weew\App\Monolog;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Psr\Log\LoggerInterface;
+use stdClass;
 use Weew\App\Monolog\Exceptions\UndefinedChannelException;
 use Weew\App\Monolog\IMonologChannelManager;
 use Weew\App\Monolog\IMonologConfig;
@@ -50,8 +51,52 @@ class MonologChannelManagerSpec extends ObjectBehavior {
         $logger->shouldHaveType(LoggerInterface::class);
 
         $this->getLoggers()->shouldBe([
-            'channel1' => $logger->getWrappedObject(),
+            'channel1-channel1' => $logger->getWrappedObject(),
         ]);
+        $logger->getName()->shouldBe('channel1');
+    }
+
+    function it_creates_a_logger_with_different_name() {
+        $this->getLoggers()->shouldBe([]);
+        $logger = $this->getLogger('channel1', 'name1');
+        $logger->shouldHaveType(LoggerInterface::class);
+
+        $this->getLoggers()->shouldBe([
+            'channel1-name1' => $logger->getWrappedObject(),
+        ]);
+        $logger->getName()->shouldBe('name1');
+    }
+
+    function it_creates_a_logger_for_class() {
+        $object = new stdClass();
+        $logger = $this->getLoggerForClass($object, 'channel2');
+        $logger->shouldHaveType(LoggerInterface::class);
+
+        $this->getLoggers()->shouldBe([
+            'channel2-stdClass' => $logger->getWrappedObject(),
+        ]);
+        $logger->getName()->shouldBe('stdClass');
+    }
+
+    function it_returns_default_logger_for_invalid_object() {
+        $logger = $this->getLoggerForClass('invalid_object');
+        $logger->shouldHaveType(LoggerInterface::class);
+
+        $this->getLoggers()->shouldBe([
+            'channel1-channel1' => $logger->getWrappedObject(),
+        ]);
+        $logger->getName()->shouldBe('channel1');
+    }
+
+    function it_creates_a_logger_for_class_with_different_config() {
+        $object = new stdClass();
+        $logger = $this->getLoggerForClass($object);
+        $logger->shouldHaveType(LoggerInterface::class);
+
+        $this->getLoggers()->shouldBe([
+            'channel1-stdClass' => $logger->getWrappedObject(),
+        ]);
+        $logger->getName()->shouldBe('stdClass');
     }
 
     function it_reuses_existing_loggers_with_the_same_channel_name() {
@@ -74,12 +119,12 @@ class MonologChannelManagerSpec extends ObjectBehavior {
 
     function it_creates_logs_directory_if_it_does_not_exist() {
         $channelFilePath = array_get(
-            $this->getConfig()->getDefaultChannel()->getWrappedObject(),
+            $this->getConfig()->getDefaultChannelConfig()->getWrappedObject(),
             'log_file_path'
         );
 
         expect(file_exists($channelFilePath))->shouldBe(false);
-        $this->getLogger($this->getConfig()->getDefaultChannelName());
+        $this->getLogger($this->getConfig()->getDefaultChannelConfigName());
         expect(file_exists($channelFilePath))->shouldBe(true);
     }
 }
