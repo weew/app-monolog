@@ -6,11 +6,20 @@ use Monolog\Logger;
 
 interface IMonologChannelManager {
     /**
-     * @param $configName
+     * @param null $configName
+     * @param null $channelName
      *
      * @return Logger
      */
-    function getLogger($configName);
+    function getLogger($configName = null, $channelName = null);
+
+    /**
+     * @param $object
+     * @param null $configName
+     *
+     * @return Logger
+     */
+    function getLoggerForClass($object, $configName = null);
 
     /**
      * @return Logger[]
