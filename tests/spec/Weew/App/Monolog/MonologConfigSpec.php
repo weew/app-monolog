@@ -16,10 +16,10 @@ use Weew\Config\Exceptions\InvalidConfigValueException;
 class MonologConfigSpec extends ObjectBehavior {
     function let() {
         $config = new Config();
-        $config->set(s(MonologConfig::LOG_CHANNEL_FILE_PATH, 'channel1'), '/tmp');
-        $config->set(s(MonologConfig::LOG_CHANNEL_FILE_PATH, 'channel2'), '/tmp');
-        $config->set(s(MonologConfig::LOG_CHANNEL_LOG_LEVEL, 'channel1'), 'debug');
-        $config->set(s(MonologConfig::LOG_CHANNEL_LOG_LEVEL, 'channel2'), 'debug');
+        $config->set(MonologConfig::LOG_CHANNEL_FILE_PATH('channel1'), '/tmp');
+        $config->set(MonologConfig::LOG_CHANNEL_FILE_PATH('channel2'), '/tmp');
+        $config->set(MonologConfig::LOG_CHANNEL_LOG_LEVEL('channel1'), 'debug');
+        $config->set(MonologConfig::LOG_CHANNEL_LOG_LEVEL('channel2'), 'debug');
         $config->set(MonologConfig::DEFAULT_CHANNEL_NAME, 'channel1');
 
         $this->beConstructedWith($config);
@@ -73,7 +73,7 @@ class MonologConfigSpec extends ObjectBehavior {
     function it_throws_an_error_if_a_logging_channel_config_has_no_logging_path() {
         $config = new Config();
         $config->set(MonologConfig::DEFAULT_CHANNEL_NAME, 'channel_name');
-        $config->set(s(MonologConfig::LOG_CHANNEL_LOG_LEVEL, 'channel_name'), 'log_level');
+        $config->set(MonologConfig::LOG_CHANNEL_LOG_LEVEL('channel_name'), 'log_level');
         $this->beConstructedWith($config);
 
         $this->shouldThrow(MissingConfigException::class)->duringInstantiation();
@@ -82,7 +82,7 @@ class MonologConfigSpec extends ObjectBehavior {
     function it_throws_an_error_if_a_logging_channel_config_has_no_log_level() {
         $config = new Config();
         $config->set(MonologConfig::DEFAULT_CHANNEL_NAME, 'channel_name');
-        $config->set(s(MonologConfig::LOG_CHANNEL_FILE_PATH, 'channel_name'), 'log_path');
+        $config->set(MonologConfig::LOG_CHANNEL_FILE_PATH('channel_name'), 'log_path');
         $this->beConstructedWith($config);
 
         $this->shouldThrow(MissingConfigException::class)->duringInstantiation();

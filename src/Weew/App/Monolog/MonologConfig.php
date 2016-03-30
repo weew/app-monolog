@@ -8,8 +8,14 @@ use Weew\Config\IConfig;
 class MonologConfig implements IMonologConfig {
     const LOG_CHANNELS = 'monolog.channels';
     const DEFAULT_CHANNEL_NAME = 'monolog.default_channel';
-    const LOG_CHANNEL_FILE_PATH = 'monolog.channels.%s.log_file_path';
-    const LOG_CHANNEL_LOG_LEVEL = 'monolog.channels.%s.log_level';
+
+    static function LOG_CHANNEL_FILE_PATH($configName) {
+        return s('monolog.channels.%s.log_file_path', $configName);
+    }
+
+    static function LOG_CHANNEL_LOG_LEVEL($configName) {
+        return s('monolog.channels.%s.log_level', $configName);
+    }
 
     /**
      * @var IConfig
@@ -39,15 +45,15 @@ class MonologConfig implements IMonologConfig {
             ));
         }
 
-        foreach ($channels as $name => $channel) {
+        foreach ($channels as $configName => $channelConfig) {
             $config->ensure(
-                s(self::LOG_CHANNEL_FILE_PATH, $name),
-                s('Missing log file path for logging channel "%s".', $name)
+                self::LOG_CHANNEL_FILE_PATH($configName),
+                s('Missing log file path for logging channel "%s".', $configName)
             );
 
             $config->ensure(
-                s(self::LOG_CHANNEL_LOG_LEVEL, $name),
-                s('Missing log file path for logging channel "%s".', $name)
+                self::LOG_CHANNEL_LOG_LEVEL($configName),
+                s('Missing log file path for logging channel "%s".', $configName)
             );
         }
 
@@ -95,7 +101,7 @@ class MonologConfig implements IMonologConfig {
      * @return string
      */
     public function getLogFilePathForChannelConfig($configName) {
-        return $this->config->get(s(self::LOG_CHANNEL_FILE_PATH, $configName));
+        return $this->config->get(self::LOG_CHANNEL_FILE_PATH($configName));
     }
 
     /**
@@ -104,6 +110,6 @@ class MonologConfig implements IMonologConfig {
      * @return string
      */
     public function getLogLevelForChannelConfig($configName) {
-        return $this->config->get(s(self::LOG_CHANNEL_LOG_LEVEL, $configName));
+        return $this->config->get(self::LOG_CHANNEL_LOG_LEVEL($configName));
     }
 }

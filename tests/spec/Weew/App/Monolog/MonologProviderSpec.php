@@ -30,8 +30,8 @@ class MonologProviderSpec extends ObjectBehavior {
     private function createChannelManager() {
         $config = new Config();
         $config->set(MonologConfig::DEFAULT_CHANNEL_NAME, 'channel');
-        $config->set(s(MonologConfig::LOG_CHANNEL_FILE_PATH, 'channel'), '/tmp');
-        $config->set(s(MonologConfig::LOG_CHANNEL_LOG_LEVEL, 'channel'), 'debug');
+        $config->set(MonologConfig::LOG_CHANNEL_FILE_PATH('channel'), '/tmp');
+        $config->set(MonologConfig::LOG_CHANNEL_LOG_LEVEL('channel'), 'debug');
         $monologConfig = new MonologConfig($config);
 
         return new MonologChannelManager($monologConfig);

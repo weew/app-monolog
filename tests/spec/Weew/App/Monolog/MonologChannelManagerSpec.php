@@ -19,10 +19,10 @@ use Weew\Config\Config;
 class MonologChannelManagerSpec extends ObjectBehavior {
     function let() {
         $config = new Config();
-        $config->set(s(MonologConfig::LOG_CHANNEL_FILE_PATH, 'channel1'), path('/tmp', uuid(), 'channel1.log'));
-        $config->set(s(MonologConfig::LOG_CHANNEL_FILE_PATH, 'channel2'), path('/tmp', uuid(), 'channel2.log'));
-        $config->set(s(MonologConfig::LOG_CHANNEL_LOG_LEVEL, 'channel1'), 'debug');
-        $config->set(s(MonologConfig::LOG_CHANNEL_LOG_LEVEL, 'channel2'), 'debug');
+        $config->set(MonologConfig::LOG_CHANNEL_FILE_PATH('channel1'), path('/tmp', uuid(), 'channel1.log'));
+        $config->set(MonologConfig::LOG_CHANNEL_FILE_PATH('channel2'), path('/tmp', uuid(), 'channel2.log'));
+        $config->set(MonologConfig::LOG_CHANNEL_LOG_LEVEL('channel1'), 'debug');
+        $config->set(MonologConfig::LOG_CHANNEL_LOG_LEVEL('channel2'), 'debug');
         $config->set(MonologConfig::DEFAULT_CHANNEL_NAME, 'channel1');
         $monologConfig = new MonologConfig($config);
 
