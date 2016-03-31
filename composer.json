@@ -23,7 +23,7 @@
         }
     },
     "require": {
-        "weew/php-app": "^1.4",
+        "weew/php-app": "^2.0",
         "monolog/monolog": "^1.18"
     },
     "require-dev": {
