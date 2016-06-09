@@ -78,10 +78,27 @@ class MonologChannelManager implements IMonologChannelManager {
     }
 
     /**
+     * Get all logger instances.
+     *
      * @return Logger[]
      */
     public function getLoggers() {
         return $this->loggers;
+    }
+
+    /**
+     * Get all registered loggers. Instantiate if necessary.
+     *
+     * @return Logger[]
+     * @throws UndefinedChannelException
+     */
+    public function getAllLoggers() {
+        // instantiate all loggers
+        foreach ($this->config->getChannelConfigs() as $name => $config) {
+            $this->getLogger($name);
+        }
+
+        return $this->getLoggers();
     }
 
     /**

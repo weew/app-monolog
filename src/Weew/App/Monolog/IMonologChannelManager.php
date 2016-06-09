@@ -22,9 +22,18 @@ interface IMonologChannelManager {
     function getLoggerForClass($object, $configName = null);
 
     /**
+     * Get all instantiated loggers.
+     *
      * @return Logger[]
      */
     function getLoggers();
+
+    /**
+     * Get all registered loggers. Instantiate if necessary.
+     *
+     * @return Logger[]
+     */
+    function getAllLoggers();
 
     /**
      * @return IMonologConfig

@@ -28,16 +28,16 @@ class MonologChannelManagerSpec extends ObjectBehavior {
 
         $this->beConstructedWith($monologConfig);
     }
-    
+
     function it_is_initializable() {
         $this->shouldHaveType(MonologChannelManager::class);
     }
-    
+
     function it_implements_imonolog_channel_manager() {
         $this->beAnInstanceOf(IMonologChannelManager::class);
     }
 
-    function it_returns_local_loggers() {
+    function it_returns_loggers() {
         $this->getLoggers()->shouldBe([]);
     }
 
@@ -126,5 +126,9 @@ class MonologChannelManagerSpec extends ObjectBehavior {
         expect(file_exists($channelFilePath))->shouldBe(false);
         $this->getLogger($this->getConfig()->getDefaultChannelConfigName());
         expect(file_exists($channelFilePath))->shouldBe(true);
+    }
+
+    function it_returns_all_loggers() {
+        $this->getAllLoggers()->shouldHaveCount(2);
     }
 }
