@@ -1,10 +1,10 @@
 # App monolog provider
 
-[![Build Status](https://img.shields.io/travis/weew/php-app-monolog.svg)](https://travis-ci.org/weew/php-app-monolog)
-[![Code Quality](https://img.shields.io/scrutinizer/g/weew/php-app-monolog.svg)](https://scrutinizer-ci.com/g/weew/php-app-monolog)
-[![Test Coverage](https://img.shields.io/coveralls/weew/php-app-monolog.svg)](https://coveralls.io/github/weew/php-app-monolog)
-[![Version](https://img.shields.io/packagist/v/weew/php-app-monolog.svg)](https://packagist.org/packages/weew/php-app-monolog)
-[![Licence](https://img.shields.io/packagist/l/weew/php-app-monolog.svg)](https://packagist.org/packages/weew/php-app-monolog)
+[![Build Status](https://img.shields.io/travis/weew/app-monolog.svg)](https://travis-ci.org/weew/app-monolog)
+[![Code Quality](https://img.shields.io/scrutinizer/g/weew/app-monolog.svg)](https://scrutinizer-ci.com/g/weew/app-monolog)
+[![Test Coverage](https://img.shields.io/coveralls/weew/app-monolog.svg)](https://coveralls.io/github/weew/app-monolog)
+[![Version](https://img.shields.io/packagist/v/weew/app-monolog.svg)](https://packagist.org/packages/weew/app-monolog)
+[![Licence](https://img.shields.io/packagist/l/weew/app-monolog.svg)](https://packagist.org/packages/weew/app-monolog)
 
 ## Table of contents
 
@@ -14,7 +14,7 @@
 
 ## Installation
 
-`composer require weew/php-app-monolog`
+`composer require weew/app-monolog`
 
 ## Introduction
 
