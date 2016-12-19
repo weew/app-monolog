@@ -71,7 +71,7 @@ class MonologChannelManager implements IMonologChannelManager {
             $reflector = new ReflectionClass($object);
             $channelName = $reflector->getShortName();
 
-            return $this->getLogger($configName)->withName($channelName);
+            return $this->getLogger($configName, $channelName);
         }
 
         return $this->getLogger();

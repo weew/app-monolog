@@ -69,12 +69,12 @@ class MonologChannelManagerSpec extends ObjectBehavior {
 
     function it_creates_a_logger_for_class() {
         $object = new stdClass();
-        $logger = $this->getLoggerForClass($object, 'channel2');
+        $logger = $this->getLoggerForClass($object);
         $logger->shouldHaveType(LoggerInterface::class);
 
         $loggers = $this->getLoggers();
         $loggers->shouldHaveCount(1);
-        $loggers['channel2-channel2']->shouldHaveType(LoggerInterface::class);
+        $loggers['channel1-stdClass']->shouldHaveType(LoggerInterface::class);
         $logger->getName()->shouldBe('stdClass');
     }
 
@@ -90,12 +90,12 @@ class MonologChannelManagerSpec extends ObjectBehavior {
 
     function it_creates_a_logger_for_class_with_different_config() {
         $object = new stdClass();
-        $logger = $this->getLoggerForClass($object);
+        $logger = $this->getLoggerForClass($object, 'channel2');
         $logger->shouldHaveType(LoggerInterface::class);
 
         $loggers = $this->getLoggers();
         $loggers->shouldHaveCount(1);
-        $loggers['channel1-channel1']->shouldHaveType(LoggerInterface::class);
+        $loggers['channel2-stdClass']->shouldHaveType(LoggerInterface::class);
         $logger->getName()->shouldBe('stdClass');
     }
 
