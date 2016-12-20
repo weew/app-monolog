@@ -35,9 +35,6 @@ You can retrieve a specific logger by the channel name:
 ```php
 $channelManager = $app->getContainer()->get(IMonologChannelManager::class);
 $channelManager->getLogger('config_name');
-
-// you can request a logger based on an existing config but with custom channel name
- $channelManager->getLogger('config_name', 'channel_name');
 ```
 
 ## Example config

@@ -3,21 +3,21 @@
 namespace Weew\App\Monolog;
 
 use Monolog\Logger;
+use Weew\App\Monolog\Loggers\PrefixedLogger;
 
 interface IMonologChannelManager {
     /**
-     * @param null $configName
-     * @param null $channelName
+     * @param string $configName
      *
      * @return Logger
      */
-    function getLogger($configName = null, $channelName = null);
+    function getLogger($configName = null);
 
     /**
-     * @param $object
-     * @param null $configName
+     * @param mixed $object
+     * @param string $configName
      *
-     * @return Logger
+     * @return PrefixedLogger
      */
     function getLoggerForClass($object, $configName = null);
 
